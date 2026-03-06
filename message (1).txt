@@ -1,0 +1,53 @@
+Caso A: "Solicitar más de lo disponible"
+En gestionarprestamos.py, dentro de aprobar_solicitud:
+
+Python
+
+if herramienta["cantidad"] < s["cantidad"]:
+    # Aquí lanzas el log antes del continue
+    registrar_error_log("Administrador", "Aprobación de Préstamo", f"Intento de prestar {s['cantidad']} unidades de {herramienta['nombre']} pero solo hay {herramienta['cantidad']}")
+    print("No hay suficiente stock.")
+    continue
+Caso B: "Devolver algo no prestado" (El más probable para tu grupo)
+En devolver_prestamo, si el ID que ponen no existe o no es de ese usuario:
+
+Python
+
+# Si no encuentras el préstamo en el ciclo for:
+registrar_error_log("Desconocido", "Devolución", f"Se intentó devolver un préstamo con ID inexistente")
+Caso C: El "un poco más difícil" (Bloqueo por deuda)
+"No permitir que pida si ya tiene algo vencido". En crear_solicitud:
+
+Python
+
+# Lógica: Buscar si el usuario tiene préstamos vencidos
+for p in prestamos:
+    if p["id_usuario"] == usuario["id"] and p["estado"] == "activo" and p["fecha_estimada"] < hoy:
+        # LOG DEL ERROR
+        registrar_error_log(usuario["nombres"], "Crear Solicitud", "Usuario intentó pedir herramienta teniendo deudas vencidas")
+        print("Bloqueado: Debes devolver herramientas atrasadas primero.")
+        return
+3. Acuérdate de esto para mañana:
+La palabra mágica es "a": Si en el examen usas open("logs.txt", "w"), el profesor te bajará puntos porque "w" borra lo anterior. Usa "a" de Append (Acumular).
+
+strftime: Úsalo para que la fecha se vea bonita: datetime.now().strftime("%Y-%m-%d %H:%M:%S").
+
+No te compliques con el Nombre Completo: Si en la función donde estás no tienes el nombre del usuario (solo el ID), haz una búsqueda rápida en la lista de usuarios o simplemente pon el ID en el log. Lo importante es que el log se genere.
+
+Consejo para la hora del examen:
+Si te trabas buscando el nombre del usuario para el log, pon:
+registrar_error_log(f"ID Usuario: {usuario['id']}", ...)
+Es mejor entregar un log con ID que no entregar nada por perder tiempo buscando el nombre.
+
+
+
+
+
+
+
+
+
+
+
+
+

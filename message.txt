@@ -1,0 +1,88 @@
+Opción 1: El "Filtro por Atributo" (La más probable)
+El profesor te pedirá que el administrador pueda ver solo una parte de los datos.
+
+El reto: "Agregue una opción para listar herramientas solo de una categoría específica (ej. solo Jardinería)".
+
+Dónde tocar: En gestionarherramientas.py.
+
+La lógica: Crear un for que recorra las herramientas, pero con un if que compare la categoría:
+
+Python
+def filtrar_por_categoria():
+    herramientas = cargar_json("herramientas.json")
+    cat = input("Categoría a buscar: ").lower()
+    for h in herramientas:
+        if h["categoria"].lower() == cat:
+            print(f"{h['nombre']} - Stock: {h['cantidad']}")
+Opción 2: Nueva Regla de Validación
+Te pedirá que el programa sea más "estricto" antes de hacer algo.
+
+El reto: "No permita que un vecino pida una herramienta si ya tiene un préstamo vencido sin devolver".
+
+Dónde tocar: En gestionarprestamos.py, dentro de crear_solicitud.
+
+La lógica: Antes de crear la solicitud, debes recorrer prestamos.json, buscar si el id_usuario tiene alguno con estado == "activo" y cuya fecha_estimada sea menor a la de hoy. Si lo encuentra, lanzas un print("No puedes pedir más, tienes deudas!") y un return.
+
+Opción 3: Modificación de Cálculos
+Te pedirá que cambies cómo se manejan los números.
+
+El reto: "Al devolver una herramienta, si se entrega después de la fecha estimada, calcule una multa (ej. 10% del valor estimado)".
+
+Dónde tocar: En gestionarprestamos.py, función devolver_prestamo.
+
+La lógica: Comparar fechas al devolver. Si está vencido, buscas el valor en herramientas.json y haces la operación matemática: multa = valor * 0.10.
+
+Opción 4: El "Reporte de Resumen"
+Te pedirá un dato estadístico que no tienes.
+
+El reto: "Muestre cuál es el valor total en dinero de todas las herramientas que están 'en reparación'".
+
+Dónde tocar: gestionarherramientas.py.
+
+La lógica:
+
+Python
+def total_dinero_reparacion():
+    herramientas = cargar_json("herramientas.json")
+    total = 0
+    for h in herramientas:
+        if h["estado"] == "en reparacion":
+            total += (h["valor"] * h["cantidad"])
+    print(f"Total dinero en riesgo: ${total}")
+Consejos "Ninja" para tu examen de 1 hora:
+La Trampa del ID: Casi cualquier cosa que te pidan hacer con una herramienta o usuario específico va a requerir que primero pidas el ID. No olvides el int(input("ID: ")).
+
+Los Imports: Si creas una función en gestionarprestamos.py y la vas a usar en interfaz.py, lo primero que debes hacer es ir arriba de interfaz.py y agregar el nombre de la función en el from ... import. Si no, el programa se cerrará con un error de "NameError".
+
+No borres, comenta: Si te piden cambiar una lógica, no borres lo que ya tienes. Ponle un # al inicio de las líneas viejas. Si te equivocas, puedes borrar los # y volver a donde estabas rápidamente.
+
+¿Qué hacer si te bloqueas?
+Recuerda que casi todo en tu proyecto sigue este patrón:
+
+datos = cargar_json(...)
+
+for elemento in datos:
+
+if elemento["id"] == id_buscado: (o cualquier otra condición)
+
+Haces el cambio o el print.
+
+guardar_json(..., datos) (solo si modificaste algo).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

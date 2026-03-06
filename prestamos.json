@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "id_usuario": 2,
+        "id_herramienta": 2,
+        "cantidad": 1,
+        "fecha_inicio": "2026-02-21 11:38:13.365131",
+        "fecha_estimada": "23-03-26",
+        "estado": "activo",
+        "observaciones": "tiene una leve fisura"
+    }
+]

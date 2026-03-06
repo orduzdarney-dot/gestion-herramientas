@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "nombres": "jorge",
+        "apellidos": "jor",
+        "telefono": "30012",
+        "direccion": "000",
+        "tipo": "administrador",
+        "password": "1234"
+    },
+    {
+        "id": 2,
+        "nombres": "christo",
+        "apellidos": "orduz",
+        "telefono": "987654321",
+        "direccion": "calle 85",
+        "tipo": "usuario"
+    }
+]

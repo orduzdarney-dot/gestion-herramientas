@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nombre": "pala",
+        "categoria": "construccion",
+        "cantidad": 3,
+        "estado": "activa",
+        "valor": 2000.0
+    },
+    {
+        "id": 2,
+        "nombre": "destornillador",
+        "categoria": "construccion",
+        "cantidad": 2,
+        "estado": "activa",
+        "valor": 9000.0
+    }
+]

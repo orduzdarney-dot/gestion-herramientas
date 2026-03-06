@@ -1,0 +1,121 @@
+Escenario 1: Bloqueo de solicitud por "Deuda de Herramientas"
+El profesor te pide que un usuario no pueda pedir nada si ya tiene herramientas en su poder.
+
+Lógica: Antes de guardar la solicitud, revisar si el usuario tiene préstamos con estado "activo".
+
+Código (en gestionarprestamos.py):
+
+Python
+
+def crear_solicitud(usuario):
+    # --- NUEVA VALIDACIÓN ---
+    prestamos = cargar_json(RUTA_PRESTAMOS)
+    contador_activos = 0
+    for p in prestamos:
+        if p["id_usuario"] == usuario["id"] and p["estado"] == "activo":
+            contador_activos += 1
+    
+    if contador_activos >= 2: # Ejemplo: máximo 2 herramientas
+        registrar_log(f"VECINO: {usuario['nombres']} | OP: Crear Solicitud | ERROR: Ya posee {contador_activos} herramientas")
+        print(" Bloqueado: Debes devolver lo que tienes antes de pedir más.")
+        return
+    # --- FIN VALIDACIÓN ---
+
+    # ... resto del código de crear solicitud ...
+Escenario 2: Validar Estado de Herramienta (No solo cantidad)
+No basta con que haya stock; la herramienta debe estar en buen estado.
+
+Lógica: Si la herramienta está "en reparación" o "fuera de servicio", no se puede aprobar el préstamo aunque haya cantidad > 0.
+
+Código (en gestionarprestamos.py, dentro de aprobar_solicitud):
+
+Python
+
+# ... dentro del for de solicitudes ...
+herramienta = obtener_herramienta(s["id_herramienta"])
+
+if herramienta["estado"] != "activa":
+    error_desc = f"Herramienta {herramienta['nombre']} está en estado: {herramienta['estado']}"
+    registrar_log(f"ADMIN | OP: Aprobar | ERROR: {error_desc}")
+    print(f" No se puede prestar: {error_desc}")
+    continue 
+Escenario 3: Reporte con Cálculo de Dinero
+El profesor te pide saber cuánto dinero representan las herramientas que NO están en la oficina.
+
+Lógica: Sumar el valor de todas las herramientas que aparecen en préstamos "activos".
+
+Código (en gestionarprestamos.py):
+
+Python
+
+def reporte_capital_en_calle():
+    prestamos = cargar_json(RUTA_PRESTAMOS)
+    herramientas = cargar_json("herramientas.json")
+    total = 0
+    
+    for p in prestamos:
+        if p["estado"] == "activo":
+            # Buscamos el valor de esa herramienta específica
+            for h in herramientas:
+                if h["id"] == p["id_herramienta"]:
+                    total += (p["cantidad"] * h["valor"])
+                    
+    print(f" El valor total de herramientas en poder de los vecinos es: ${total}")
+Escenario 4: Actualización Masiva de Seguridad
+Si un usuario es eliminado, sus solicitudes pendientes deben cancelarse.
+
+Lógica: Al eliminar un usuario, hay que limpiar el archivo de solicitudes.
+
+Código (en gestionarusuario.py dentro de eliminar_usuarios):
+
+Python
+
+# ... después de eliminar al usuario de la lista ...
+solicitudes = cargar_json("solicitudes.json")
+# Filtramos: solo dejamos las solicitudes que NO pertenecen al ID eliminado
+solicitudes_limpias = [s for s in solicitudes if s["id_usuario"] != id_buscar]
+guardar_json("solicitudes.json", solicitudes_limpias)
+print(" Se han cancelado todas las solicitudes del usuario eliminado.")
+ Tips de Oro para tu examen:
+Si te piden el nombre en el Log y no lo tienes:
+Casi todas tus funciones reciben el objeto usuario o el ID. Si no tienes el nombre a la mano, haz un mini-ciclo rápido:
+
+Python
+
+nombre_log = "Desconocido"
+for u in usuarios:
+    if u["id"] == id_buscado: nombre_log = u["nombres"]
+Si te piden cambiar un dato en el JSON:
+Recuerda siempre el orden: cargar -> modificar el dato en la lista -> guardar. Si olvidas el guardar_json, el profe no verá el cambio y reprobarás.
+
+Diferencia entre s y p:
+En tu código usas s para Solicitudes y p para Préstamos. No te confundas de archivo en el examen.
+
+¿Qué hacer si te piden algo "raro"?
+Todo se resuelve con un for y un if.
+
+Si te piden contar: crea una variable contador = 0 y súmale 1 dentro del if.
+
+Si te piden sumar dinero: crea total = 0 y suma el campo valor.
+
+Si te piden buscar: usa un if y cuando lo encuentres usa print y return para salir.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
