@@ -53,10 +53,17 @@ Barrio con múltiples herramientas necesitan:
 
 ## 🚀 Cómo ejecutar el proyecto
 
-1. **Clona el repositorio**
-   ```bash
-   git clone https://github.com/c...
-   cd inventory-audit-api
+1. Clonar el repositorio
+
+git clone https://github.com/orduzdarney-dot/gestion-herramientas.git
+
+2. Entrar a la carpeta del proyecto
+
+cd gestion-herramientas
+
+3. Ejecutar la aplicación
+
+python main.py
    ```
 
 
