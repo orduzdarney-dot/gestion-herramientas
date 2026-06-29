@@ -26,9 +26,9 @@ Barrio con múltiples herramientas necesitan:
 
 ---
 
-```
 
----
+
+
 
 ## 🧠 Detalles técnicos destacados
 
@@ -45,11 +45,10 @@ Barrio con múltiples herramientas necesitan:
 
 
 
----
 
 
 
----
+
 
 ## 🚀 Cómo ejecutar el proyecto
 
@@ -64,7 +63,7 @@ cd gestion-herramientas
 3. Ejecutar la aplicación
 
 python main.py
-   ```
+   
 
 
 ---
